@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Docker Multi-services</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #1a1a2e; color: white; text-align: center; padding: 50px; }
+    h1 { color: #e94560; }
+    .card { background: #16213e; border-radius: 12px; padding: 30px; max-width: 500px; margin: 30px auto; }
+    .status { font-size: 1.2rem; margin: 10px 0; }
+    button { padding: 12px 30px; background: #e94560; border: none; color: white; border-radius: 8px; cursor: pointer; font-size: 1rem; margin-top: 20px; }
+    button:hover { background: #c73652; }
+  </style>
+</head>
+<body>
+  <h1>🐳 Docker Multi-services</h1>
+  <div class="card">
+    <h2>État de l'API</h2>
+    <div class="status" id="status">Chargement...</div>
+    <div class="status" id="heure"></div>
+    <button onclick="checkStatus()">🔄 Rafraîchir</button>
+  </div>
+
+  <script>
+    function checkStatus() {
+      fetch('http://localhost:3000/api/status')
+        .then(r => r.json())
+        .then(data => {
+          document.getElementById('status').textContent = data.status;
+          document.getElementById('heure').textContent = '🕐 ' + data.heure;
+        })
+        .catch(() => {
+          document.getElementById('status').textContent = '❌ API inaccessible';
+        });
+    }
+    checkStatus();
+  </script>
+</body>
+</html>
